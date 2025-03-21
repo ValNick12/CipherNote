@@ -1,6 +1,11 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +25,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    public void login(View v){
+        // Disable button
+        v.setEnabled(false);
+        Button loginButton = (Button) v;
+        loginButton.setText("Logging in...");
+
+        //get credentials
+        String username = ((EditText)findViewById(R.id.username)).getText().toString();
+        String password = ((EditText)findViewById(R.id.password)).getText().toString();
+        Log.d("login", "Credentials accepted!");
     }
 }
