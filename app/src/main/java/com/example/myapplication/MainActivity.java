@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-//import androidx.room.Room;
+import androidx.room.Room;
 
 import com.example.myapplication.Adapters.NotesListAdapter;
 import com.example.myapplication.Database.RoomDB;
