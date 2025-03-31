@@ -3,4 +3,5 @@
     <string name="login_button">Log in</string>
     <string name="username_textView">Username:</string>
     <string name="password_textView">Password:</string>
+    <string name="note_textView">Write your note here...</string>
 </resources>

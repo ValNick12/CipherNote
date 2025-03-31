@@ -12,6 +12,6 @@
     <color name="sec_blue">#00A3FF</color>
     <color name="sec_blue_v">#0088CC</color>
     <color name="bg_dark">#121212</color>
-    <color name="light_grey">#E0E0E0</color>
-    <color name="dark_grey">#2A2F36</color>
+    <color name="light_grey">#A2A2A2</color>
+    <color name="dark_grey">#4B4B4B</color>
 </resources>

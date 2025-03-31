@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = ((EditText)findViewById(R.id.password)).getText().toString();
         Log.d("login", "Credentials accepted!");
 
-        Intent home = new Intent(this, HomeActivity.class);
+        Intent home = new Intent(this, MainActivity.class);
 
         startActivity(home);
     }
