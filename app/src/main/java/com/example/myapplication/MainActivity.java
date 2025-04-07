@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -72,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
             }
+        } else if (requestCode == 102) {
+            if (resultCode == MainActivity.RESULT_OK){
+                Notes new_note = (Notes) data.getSerializableExtra("note");
+                database.mainDAO().update(new_note.getId(), new_note.getTitle(), new_note.getNote());
+                notes.clear();
+                notes.addAll(database.mainDAO().getAll());
+                notesListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -85,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
     private final NotesClickListener notesClickListener = new NotesClickListener() {
         @Override
         public void onClick(Notes notes) {
-
+            Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);
+            intent.putExtra("old_note", notes);
+            startActivityForResult(intent, 102);
         }
 
         @Override

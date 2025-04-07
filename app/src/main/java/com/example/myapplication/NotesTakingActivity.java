@@ -20,6 +20,7 @@ public class NotesTakingActivity extends AppCompatActivity {
     EditText editText_title, editText_notes;
     ImageView imageView_save;
     Notes note;
+    boolean isOldNote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,16 @@ public class NotesTakingActivity extends AppCompatActivity {
         editText_title = findViewById(R.id.editText_title);
         editText_notes = findViewById(R.id.editText_notes);
 
+        note = new Notes();
+        try {
+            note = (Notes) getIntent().getSerializableExtra("old_note");
+            editText_title.setText(note.getTitle());
+            editText_notes.setText(note.getNote());
+            isOldNote = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         imageView_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +59,10 @@ public class NotesTakingActivity extends AppCompatActivity {
                     return;
                 }
 
-                note = new Notes();
+                if (!isOldNote){
+                    note = new Notes();
+                }
+
                 note.setTitle(title);
                 note.setNote(description);
 
