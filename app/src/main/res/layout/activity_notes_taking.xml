@@ -23,13 +23,24 @@
                 android:background="@android:color/transparent"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/notes_taking_toolbar"
+                android:textColor="@color/whitish"
+                android:layout_centerVertical="true"
+                android:textSize="25sp"/>
+
         </RelativeLayout>
     </Toolbar>
+
     <EditText
         android:id="@+id/editText_title"
         android:hint="Title: "
         android:textColorHint="@color/whitish"
-        android:padding="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:padding="11dp"
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="@color/whitish"
@@ -40,7 +51,9 @@
         android:id="@+id/editText_notes"
         android:hint="@string/note_textView"
         android:textColorHint="@color/light_grey"
-        android:padding="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:paddingHorizontal="11dp"
+        android:paddingVertical="12dp"
         android:textColor="@color/whitish"
         android:textSize="18sp"
         android:textStyle="normal"
