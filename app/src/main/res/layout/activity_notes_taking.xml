@@ -8,35 +8,36 @@
     android:orientation="vertical"
     android:background="@color/bg_dark"
     tools:context=".NotesTakingActivity">
-    <Toolbar
+    <RelativeLayout
         android:id="@+id/toolbar_notes"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView_logo"
+            android:layout_alignParentStart="true"
+            android:src="@mipmap/logo"
+            android:background="@android:color/transparent"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp">
-            <ImageView
-                android:id="@+id/imageView_save"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_save"
-                android:padding="8dp"
-                android:background="@android:color/transparent"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"/>
-            <ImageView
-                android:id="@+id/imageView_logo"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/logo"
-                android:paddingStart="-30dp"
-                android:paddingVertical="10dp"
-                android:background="@android:color/transparent"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                tools:ignore="RtlSymmetry"/>
-
-        </RelativeLayout>
-    </Toolbar>
+            android:text="@string/app_name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/main_green"
+            android:layout_toEndOf="@+id/imageView_logo"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/imageView_save"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_save"
+            android:padding="8dp"
+            android:background="@android:color/transparent"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"/>
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/editText_title"

@@ -9,12 +9,15 @@
     android:background="@color/bg_dark"
     tools:context=".MainActivity">
 
+    <include layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_main"/>
+
     <SearchView
         android:id="@+id/searchView_Main"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
         android:layout_margin="16dp"
+        android:layout_below="@+id/toolbar_main"
         android:background="@color/bg_light"
         android:iconifiedByDefault="false"
         android:queryHint="Search your notes..." />
