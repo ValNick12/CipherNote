@@ -11,7 +11,7 @@ import com.example.myapplication.Model.Notes;
 @Database(entities = Notes.class, version = 1, exportSchema = false)
 public abstract class RoomDB extends RoomDatabase {
     private static RoomDB database;
-    private static String DATABASE_NAME = "CipherNote";
+    private static final String DATABASE_NAME = "CipherNote";
 
     public synchronized static RoomDB getInstance(Context context){
         if (database == null){

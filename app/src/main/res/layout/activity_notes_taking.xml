@@ -14,7 +14,8 @@
         android:layout_height="?attr/actionBarSize">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp">
             <ImageView
                 android:id="@+id/imageView_save"
                 android:layout_alignParentEnd="true"
@@ -23,25 +24,27 @@
                 android:background="@android:color/transparent"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/imageView_logo"
                 android:layout_alignParentStart="true"
-                android:text="@string/notes_taking_toolbar"
-                android:textColor="@color/whitish"
-                android:layout_centerVertical="true"
-                android:textSize="25sp"/>
+                android:src="@drawable/logo"
+                android:paddingStart="-30dp"
+                android:paddingVertical="10dp"
+                android:background="@android:color/transparent"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                tools:ignore="RtlSymmetry"/>
 
         </RelativeLayout>
     </Toolbar>
 
     <EditText
         android:id="@+id/editText_title"
-        android:hint="Title: "
+        android:hint="Title"
         android:textColorHint="@color/whitish"
         android:backgroundTint="@android:color/transparent"
         android:padding="11dp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:textSize="20sp"
         android:textColor="@color/whitish"
         android:singleLine="true"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,15 +61,22 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
     public int getItemCount() {
         return list.size();
     }
+
+    public void filterList(List<Notes> filteredList){
+        list = filteredList;
+        notifyDataSetChanged();
+    }
 }
 
 class NotesViewHolder extends RecyclerView.ViewHolder {
     CardView notes_container;
     TextView textView_title, textView_notes;
+    ImageView imageView_pin;
     public NotesViewHolder(@NonNull View itemView) {
         super(itemView);
         notes_container = itemView.findViewById(R.id.notes_container);
         textView_notes = itemView.findViewById(R.id.textView_notes);
         textView_title = itemView.findViewById(R.id.textView_title);
+        imageView_pin = itemView.findViewById(R.id.imageView_pin);
     }
 }

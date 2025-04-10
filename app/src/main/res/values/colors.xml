@@ -13,7 +13,8 @@
     <color name="main_green_v">#AEEA00</color>
     <color name="sec_blue">#42A4F5</color>
     <color name="sec_blue_v">#0088CC</color>
-    <color name="bg_dark">#212020</color>
+    <color name="bg_dark">#1E1F22</color>
+    <color name="bg_light">#A2A2A2</color>
     <color name="light_grey">#A2A2A2</color>
     <color name="dark_grey">#3E3E3E</color>
 </resources>

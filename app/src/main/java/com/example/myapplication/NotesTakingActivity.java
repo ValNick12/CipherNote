@@ -52,10 +52,10 @@ public class NotesTakingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String title = editText_title.getText().toString();
-                String description = editText_notes.getText().toString();
+                String note_text = editText_notes.getText().toString();
 
-                if (description.isEmpty()){
-                    Toast.makeText(NotesTakingActivity.this, "Please add a note!", Toast.LENGTH_SHORT).show();
+                if (note_text.isEmpty()){
+                    Toast.makeText(NotesTakingActivity.this, "Please write a note!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -64,7 +64,7 @@ public class NotesTakingActivity extends AppCompatActivity {
                 }
 
                 note.setTitle(title);
-                note.setNote(description);
+                note.setNote(note_text);
 
                 Intent intent = new Intent();
                 intent.putExtra("note", note);
