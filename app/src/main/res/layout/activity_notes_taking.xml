@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/main_green"
             android:layout_toEndOf="@+id/imageView_logo"
@@ -45,7 +45,7 @@
         android:textColorHint="@color/whitish"
         android:backgroundTint="@android:color/transparent"
         android:padding="11dp"
-        android:textStyle="normal"
+        android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="@color/whitish"
         android:singleLine="true"
@@ -61,6 +61,7 @@
         android:textColor="@color/whitish"
         android:textSize="18sp"
         android:textStyle="normal"
+        android:gravity="top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
