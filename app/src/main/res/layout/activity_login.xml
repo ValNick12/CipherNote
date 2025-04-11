@@ -1,107 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    tools:layout_editor_absoluteX="-56dp"
-    tools:layout_editor_absoluteY="-397dp">
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LoginLayout"
+    <include layout="@layout/toolbar_main"
+        android:id="@+id/toolbar_login"/>
+
+    <RelativeLayout
+        android:id="@+id/login_Text_Layout"
         android:layout_width="300dp"
-        android:layout_height="186dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="237dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.882"
-            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+        android:layout_height="200dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/password_textView"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username"
-            app:layout_constraintVertical_bias="0.923"
-            tools:ignore="HardcodedText" />
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="237dp"
-            android:layout_height="58dp"
-            android:ems="10"
-            android:inputType="text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.223"
-            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:text="@string/username_textView"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/username"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            android:textColor="@color/whitish"
+            android:textSize="16sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/editText_username"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/textView_username"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/whitish"
+            android:inputType="text"
+            android:textColor="@color/whitish" />
+
+        <TextView
+            android:id="@+id/textView_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText_username"
+            android:layout_centerHorizontal="true"
+            android:text="@string/password_textView"
+            android:textColor="@color/whitish"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/editText_password"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/textView_password"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/whitish"
+            android:inputType="textPassword"
+            android:textColor="@color/whitish" />
+
+    </RelativeLayout>
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="145dp"
-        android:layout_height="54dp"
+        android:id="@+id/loginButton"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:onClick="login"
         android:text="@string/login_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LoginLayout"
-        app:layout_constraintVertical_bias="0.5" />
+        android:textColor="@color/bg_dark"
+        android:backgroundTint="@color/main_green"
+        android:layout_below="@id/login_Text_Layout"
+        android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:id="@+id/logoView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/LoginLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        tools:srcCompat="@tools:sample/avatars" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

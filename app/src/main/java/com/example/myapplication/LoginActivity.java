@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setText("Logging in...");
 
         //get credentials
-        String username = ((EditText)findViewById(R.id.username)).getText().toString();
-        String password = ((EditText)findViewById(R.id.password)).getText().toString();
+        String username = ((EditText)findViewById(R.id.editText_username)).getText().toString();
+        String password = ((EditText)findViewById(R.id.editText_password)).getText().toString();
         Log.d("login", "Credentials accepted!");
 
         Intent main = new Intent(this, MainActivity.class);
