@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.Database.MainDAO;
+import com.example.myapplication.Database.RoomDB;
+
+import java.util.Locale;
+
 public class LoginActivity extends AppCompatActivity {
+
+    String username;
+    String password;
+    Button loginButton;
+    Button createAccButton;
+    RoomDB database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +37,36 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-    public void login(View v){
-        // Disable button
-        v.setEnabled(false);
-        Button loginButton = (Button) v;
-        loginButton.setText("Logging in...");
 
-        //get credentials
-        String username = ((EditText)findViewById(R.id.editText_username)).getText().toString();
-        String password = ((EditText)findViewById(R.id.editText_password)).getText().toString();
-        Log.d("login", "Credentials accepted!");
+        username = ((EditText)findViewById(R.id.editText_username)).getText().toString().trim();
+        password = ((EditText)findViewById(R.id.editText_password)).getText().toString().trim();
+        loginButton = findViewById(R.id.loginButton);
+        createAccButton = findViewById(R.id.createAccButton);
 
-        Intent main = new Intent(this, MainActivity.class);
-        startActivity(main);
+        database = RoomDB.getInstance(this);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(username.equals(database.mainDAO().getUsername(username))
+                && password.equals(database.mainDAO().getPasswordHash(password))){
+                    Log.d("login", "Credentials accepted!");
+                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(main);
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Wrong username or password!!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        createAccButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent caa = new Intent(LoginActivity.this, CreateAccountActivity.class);
+                startActivity(caa);
+            }
+        });
+
     }
 }

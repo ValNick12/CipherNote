@@ -13,12 +13,14 @@
         android:theme="@style/Theme.CipherNoteNoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".CreateAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".NotesTakingActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">

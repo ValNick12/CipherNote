@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/createAccActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/bg_dark"
+    android:layout_gravity="bottom">
 
     <include layout="@layout/toolbar_main"
         android:id="@+id/toolbar_login"/>
@@ -20,11 +21,21 @@
         android:layout_centerHorizontal="true">
 
         <TextView
+            android:id="@+id/textView_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Enter your new credentials:"
+            android:textColor="@color/whitish"
+            android:textSize="16sp"
+            android:paddingBottom="20dp"/>
+
+        <TextView
             android:id="@+id/textView_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView_enter"
             android:text="@string/username_textView"
             android:textColor="@color/whitish"
             android:textSize="16sp" />
@@ -65,20 +76,10 @@
         android:id="@+id/loginButton"
         android:layout_width="170dp"
         android:layout_height="50dp"
-        android:text="@string/login_button"
+        android:text="@string/create_account"
         android:textColor="@color/bg_dark"
         android:backgroundTint="@color/main_green"
         android:layout_below="@id/login_Text_Layout"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/createAccButton"
-        android:layout_width="170dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/loginButton"
-        android:layout_centerHorizontal="true"
-        android:text="@string/create_account"
-        android:textColor="@color/bg_dark"
-        android:layout_marginTop="50dp"/>
 
 </RelativeLayout>
