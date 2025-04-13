@@ -7,8 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.myapplication.Model.Notes;
+import com.example.myapplication.Model.Profiles;
 
-@Database(entities = Notes.class, version = 1, exportSchema = false)
+@Database(entities = {Profiles.class, Notes.class}, version = 1, exportSchema = false)
 public abstract class RoomDB extends RoomDatabase {
     private static RoomDB database;
     private static final String DATABASE_NAME = "CipherNote";

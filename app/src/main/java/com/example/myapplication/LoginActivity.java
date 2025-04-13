@@ -16,15 +16,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.Database.MainDAO;
 import com.example.myapplication.Database.RoomDB;
+import com.example.myapplication.Model.Profiles;
 
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
-    String username;
-    String password;
+    EditText editText_username;
+    EditText editText_password;
     Button loginButton;
-    Button createAccButton;
+    Button createAccountButton;
     RoomDB database;
 
     @Override
@@ -38,34 +39,32 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        username = ((EditText)findViewById(R.id.editText_username)).getText().toString().trim();
-        password = ((EditText)findViewById(R.id.editText_password)).getText().toString().trim();
+        editText_username = findViewById(R.id.editText_username);
+        editText_password = findViewById(R.id.editText_password);
         loginButton = findViewById(R.id.loginButton);
-        createAccButton = findViewById(R.id.createAccButton);
-
+        createAccountButton = findViewById(R.id.createAccountButton);
         database = RoomDB.getInstance(this);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(username.equals(database.mainDAO().getUsername(username))
-                && password.equals(database.mainDAO().getPasswordHash(password))){
+        loginButton.setOnClickListener(v -> {
+            String username = editText_username.getText().toString();
+            String password = editText_password.getText().toString();
+            if (username.equals(database.mainDAO().getUsername(username))){
+                if(Profiles.hashPassword(password).equals(database.mainDAO().getPasswordHash(username))){
                     Log.d("login", "Credentials accepted!");
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
+                }else{
+                    Toast.makeText(LoginActivity.this, "Wrong password!!!", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Toast.makeText(LoginActivity.this, "Wrong username or password!!!", Toast.LENGTH_LONG).show();
-                }
+            }
+            else{
+                Toast.makeText(LoginActivity.this, "Wrong username!!!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        createAccButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent caa = new Intent(LoginActivity.this, CreateAccountActivity.class);
-                startActivity(caa);
-            }
+        createAccountButton.setOnClickListener((View.OnClickListener) v -> {
+            Intent caa = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            startActivity(caa);
         });
 
     }

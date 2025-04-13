@@ -72,13 +72,14 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/createAccButton"
+        android:id="@+id/createAccountButton"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:layout_below="@+id/loginButton"
         android:layout_centerHorizontal="true"
         android:text="@string/create_account"
         android:textColor="@color/bg_dark"
+        android:backgroundTint="@color/main_green"
         android:layout_marginTop="50dp"/>
 
 </RelativeLayout>

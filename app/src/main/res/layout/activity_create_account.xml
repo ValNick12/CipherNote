@@ -73,7 +73,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/createAccountButton"
         android:layout_width="170dp"
         android:layout_height="50dp"
         android:text="@string/create_account"
