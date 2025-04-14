@@ -24,11 +24,6 @@ public class Profiles implements Serializable {
     @ColumnInfo(name = "password_hash")
     String password_hash = "";
 
-    public Profiles(String username, String password) {
-        this.username = username;
-        this.password_hash = hashPassword(password);
-    }
-
     @NonNull
     public String getUsername() {
         return username;

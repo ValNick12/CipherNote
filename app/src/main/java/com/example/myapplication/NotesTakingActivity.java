@@ -48,29 +48,25 @@ public class NotesTakingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        imageView_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title = editText_title.getText().toString();
-                String note_text = editText_notes.getText().toString();
-
-                if (note_text.isEmpty()){
-                    Toast.makeText(NotesTakingActivity.this, "Please write a note!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!isOldNote){
-                    note = new Notes();
-                }
-
-                note.setTitle(title);
-                note.setNote(note_text);
-
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(NotesTakingActivity.RESULT_OK, intent);
-                finish();
+        imageView_save.setOnClickListener(v -> {
+            String title = editText_title.getText().toString();
+            String note_text = editText_notes.getText().toString();
+            if (note_text.isEmpty()){
+                Toast.makeText(NotesTakingActivity.this, "Please write a note!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (!isOldNote){
+                note = new Notes();
+            }
+
+            note.setTitle(title);
+            note.setNote(note_text);
+
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(NotesTakingActivity.RESULT_OK, intent);
+            finish();
         });
     }
 }

@@ -57,7 +57,9 @@ public class CreateAccountActivity extends AppCompatActivity {
             if (matcher_user.find()){
                 if (matcher_pass.find()){
                     Log.d("createAccount", "Create account clicked");
-                    new_profile = new Profiles(username, password);
+                    new_profile = new Profiles();
+                    new_profile.setUsername(username);
+                    new_profile.setPassword_hash(password);
                     database.mainDAO().insert_profile(new_profile);
                     Log.d("createAccount", "Account is saved in the database " + new_profile.getUsername());
                     Toast.makeText(CreateAccountActivity.this, "Account created.", Toast.LENGTH_SHORT).show();
