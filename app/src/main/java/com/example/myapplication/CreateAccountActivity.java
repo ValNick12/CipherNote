@@ -47,8 +47,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
         createAccountButton.setOnClickListener(v -> {
-            String username = editText_username.getText().toString();
-            String password = editText_password.getText().toString();
+            String username = editText_username.getText().toString().trim();
+            String password = editText_password.getText().toString().trim();
             Matcher matcher_user = pattern_user.matcher(username);
             Matcher matcher_pass = pattern_pass.matcher(password);
             if (matcher_user.find()){
@@ -56,7 +56,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     Log.d("createAccount", "Create account clicked");
                     new_profile = new Profiles();
                     new_profile.setUsername(username);
-                    new_profile.setPassword_hash(password);
+                    new_profile.setPassword(password);
                     database.mainDAO().insert_profile(new_profile);
                     Log.d("createAccount", "Account is saved in the database " + new_profile.getUsername());
                     Toast.makeText(CreateAccountActivity.this, "Account created.", Toast.LENGTH_SHORT).show();

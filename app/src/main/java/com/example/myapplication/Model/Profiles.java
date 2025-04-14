@@ -13,7 +13,13 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.HexFormat;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 @Entity(tableName = "profiles")
 public class Profiles implements Serializable {
@@ -23,36 +29,62 @@ public class Profiles implements Serializable {
     String username = "";
     @ColumnInfo(name = "password_hash")
     String password_hash = "";
+    @ColumnInfo(name = "password_salt")
+    byte[] salt = new byte[16];
+
 
     @NonNull
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public String getPassword_hash() {
-        return password_hash;
+        return this.password_hash;
+    }
+
+    public byte[] getSalt(){
+        return this.salt;
     }
 
     public void setUsername(@NonNull String username) {
         this.username = username;
     }
 
-    public void setPassword_hash(String password) {
-        this.password_hash = hashPassword(password);
+    public void setPassword(String password) {
+        setSalt();
+        this.password_hash = hashPassword(password, salt);
+    }
+    private void setSalt(){
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(this.salt);
     }
 
-    public static String hashPassword(String pass){
-        MessageDigest digest = null;
+    public static String hashPassword(String password, byte[] salt){
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         try {
-            digest = getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                return HexFormat.of().formatHex(hash);
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        byte[] hashbytes = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            return HexFormat.of().formatHex(hashbytes);
-        }else{
-            return null;
-        }
+        return "admin1234";
     }
+
+//    public static String hashPassword(String pass){
+//        MessageDigest digest = null;
+//        try {
+//            digest = getInstance("SHA-256");
+//        } catch (NoSuchAlgorithmException e) {
+//            throw new RuntimeException(e);
+//        }
+//        byte[] hashbytes = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//            return HexFormat.of().formatHex(hashbytes);
+//        }else{
+//            return null;
+//        }
+//    }
 }

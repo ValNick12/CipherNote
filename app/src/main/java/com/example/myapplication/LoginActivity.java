@@ -43,10 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         database = RoomDB.getInstance(this);
 
         loginButton.setOnClickListener(v -> {
-            String username = editText_username.getText().toString();
-            String password = editText_password.getText().toString();
+            String username = editText_username.getText().toString().trim();
+            String password = editText_password.getText().toString().trim();
             if (username.equals(database.mainDAO().getUsername(username))){
-                if(Profiles.hashPassword(password).equals(database.mainDAO().getPasswordHash(username))){
+                if(Profiles.hashPassword(password, database.mainDAO().getSalt(username))
+                        .equals(database.mainDAO().getPasswordHash(username))){
                     Log.d("login", "Credentials accepted!");
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
@@ -55,11 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             else{
-                Toast.makeText(LoginActivity.this, "Wrong username!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "There is no user with this username!!!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        createAccountButton.setOnClickListener((View.OnClickListener) v -> {
+        createAccountButton.setOnClickListener(v -> {
             Intent caa = new Intent(LoginActivity.this, CreateAccountActivity.class);
             startActivity(caa);
         });
