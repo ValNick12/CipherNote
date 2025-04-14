@@ -14,11 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myapplication.Database.MainDAO;
 import com.example.myapplication.Database.RoomDB;
 import com.example.myapplication.Model.Profiles;
-
-import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
