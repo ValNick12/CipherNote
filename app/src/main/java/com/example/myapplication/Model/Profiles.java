@@ -1,7 +1,5 @@
 package com.example.myapplication.Model;
 
-import static java.security.MessageDigest.getInstance;
-
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -10,11 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.HexFormat;
 
@@ -60,7 +54,7 @@ public class Profiles implements Serializable {
     }
 
     public static String hashPassword(String password, byte[] salt){
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 12000, 128);
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] hash = factory.generateSecret(spec).getEncoded();
@@ -70,21 +64,6 @@ public class Profiles implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return "admin1234";
+        return "admin";
     }
-
-//    public static String hashPassword(String pass){
-//        MessageDigest digest = null;
-//        try {
-//            digest = getInstance("SHA-256");
-//        } catch (NoSuchAlgorithmException e) {
-//            throw new RuntimeException(e);
-//        }
-//        byte[] hashbytes = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-//            return HexFormat.of().formatHex(hashbytes);
-//        }else{
-//            return null;
-//        }
-//    }
 }

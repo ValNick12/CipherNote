@@ -43,7 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         createAccountButton = findViewById(R.id.createAccountButton);
         database = RoomDB.getInstance(this);
         Pattern pattern_pass = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
-        Pattern pattern_user = Pattern.compile("[a-zA-Z]{8,20}");
+        Pattern pattern_user = Pattern.compile("[a-zA-Z0-9]{8,20}");
 
 
         createAccountButton.setOnClickListener(v -> {

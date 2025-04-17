@@ -35,9 +35,6 @@ public interface MainDAO {
     @Query("UPDATE notes SET title = :title, note = :note WHERE ID = :id")
     void update(int id, String title, String note);
 
-//    @Query("UPDATE profiles SET username = :username, password_hash = :password_hash WHERE username = :username")
-//    void updateProfiles(String username, String password_hash);
-
     @Delete
     void delete(Notes notes);
 }
