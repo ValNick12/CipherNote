@@ -1,6 +1,7 @@
 package com.example.myapplication.Model;
 
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -8,10 +9,13 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.util.HexFormat;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -26,18 +30,9 @@ public class Profiles implements Serializable {
     @ColumnInfo(name = "password_salt")
     public byte[] salt = new byte[16];
 
-
     @NonNull
     public String getUsername() {
         return this.username;
-    }
-
-    public String getPassword_hash() {
-        return this.password_hash;
-    }
-
-    public byte[] getSalt(){
-        return this.salt;
     }
 
     public void setUsername(@NonNull String username) {

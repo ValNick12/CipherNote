@@ -31,6 +31,10 @@ public class Notes implements Serializable {
     String note = "";
     @ColumnInfo(name = "user")
     String user = "";
+    @ColumnInfo(name = "iv")
+    GCMParameterSpec iv = generateIv();
+    @ColumnInfo(name = "key")
+    SecretKey key = generateKey();
 
     public int getId() {
         return id;
@@ -41,19 +45,39 @@ public class Notes implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        try {
+            return decrypt(this.title, key, iv);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        try {
+            this.title = encrypt(this.title, key, iv);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getNote() {
-        return note;
+        try {
+            return decrypt(this.note, key, iv);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setNote(String note) {
-        this.note = note;
+        try {
+            this.note = encrypt(this.note, key, iv);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getUser() {
@@ -86,14 +110,20 @@ public class Notes implements Serializable {
         return new String(plainText);
     }
 
-    public static SecretKey generateKey(int n) throws NoSuchAlgorithmException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(n);
-        return keyGenerator.generateKey();
-    }
     public static GCMParameterSpec generateIv() {
         byte[] iv = new byte[12];
         new SecureRandom().nextBytes(iv);
         return new GCMParameterSpec(128, iv);
+    }
+
+    public static SecretKey generateKey() {
+        KeyGenerator keyGenerator = null;
+        try {
+            keyGenerator = KeyGenerator.getInstance("AES");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        keyGenerator.init(128);
+        return keyGenerator.generateKey();
     }
 }
