@@ -29,6 +29,8 @@ public class Notes implements Serializable {
     String title = "";
     @ColumnInfo(name = "note")
     String note = "";
+    @ColumnInfo(name = "user")
+    String user = "";
 
     public int getId() {
         return id;
@@ -52,6 +54,14 @@ public class Notes implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public static String encrypt(String input, SecretKey key, GCMParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {

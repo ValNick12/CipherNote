@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     Button createAccountButton;
     RoomDB database;
+    Profiles profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,10 @@ public class LoginActivity extends AppCompatActivity {
             if (username.equals(database.mainDAO().getUsername(username))){
                 if(Profiles.hashPassword(password, database.mainDAO().getSalt(username))
                         .equals(database.mainDAO().getPasswordHash(username))){
+                    profile = database.mainDAO().getProfile(username);
                     Log.d("login", "Credentials accepted!");
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                    main.putExtra("user", profile);
                     startActivity(main);
                 }else{
                     Toast.makeText(LoginActivity.this, "Wrong password!!!", Toast.LENGTH_SHORT).show();

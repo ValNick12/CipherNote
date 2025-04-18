@@ -12,6 +12,15 @@
     <include layout="@layout/toolbar_main"
         android:id="@+id/toolbar_main"/>
 
+    <ImageButton
+        android:id="@+id/imageView_logout"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_log_out"
+        android:background="@android:color/transparent"/>
+
     <SearchView
         android:id="@+id/searchView_Main"
         android:layout_width="match_parent"

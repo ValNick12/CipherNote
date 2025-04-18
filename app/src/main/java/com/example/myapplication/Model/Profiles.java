@@ -22,9 +22,9 @@ public class Profiles implements Serializable {
     @ColumnInfo(name = "username")
     String username = "";
     @ColumnInfo(name = "password_hash")
-    String password_hash = "";
+    public String password_hash = "";
     @ColumnInfo(name = "password_salt")
-    byte[] salt = new byte[16];
+    public byte[] salt = new byte[16];
 
 
     @NonNull

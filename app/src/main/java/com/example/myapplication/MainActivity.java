@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.myapplication.Adapters.NotesListAdapter;
 import com.example.myapplication.Database.RoomDB;
 import com.example.myapplication.Model.Notes;
+import com.example.myapplication.Model.Profiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     List<Notes> notes = new ArrayList<>();
     RoomDB database;
     FloatingActionButton fab_add;
+    ImageView imageView_logout;
     SearchView searchView_Main;
     Notes selectedNote;
+    Profiles profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +55,27 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView = findViewById(R.id.recycler_home);
         fab_add = findViewById(R.id.fab_home);
         searchView_Main = findViewById(R.id.searchView_Main);
+        imageView_logout = findViewById(R.id.imageView_logout);
+        profile = (Profiles) getIntent().getSerializableExtra("user");
+
 
         database = RoomDB.getInstance(this);
-        notes = database.mainDAO().getAll();
+        notes = database.mainDAO().getAll(profile.getUsername());
 
         updateRecycler(notes);
 
         fab_add.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);
+            intent.putExtra("user", profile);
             startActivityForResult(intent, 101);
         });
+
+        imageView_logout.setOnClickListener(v -> {
+            Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(logout);
+        });
+
+
 
         searchView_Main.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -97,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 database.mainDAO().insert(new_note);
                 notes.clear();
-                notes.addAll(database.mainDAO().getAll());
+                notes.addAll(database.mainDAO().getAll(profile.getUsername()));
                 notesListAdapter.notifyDataSetChanged();
             }
         } else if (requestCode == 102) {
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 database.mainDAO().update(new_note.getId(), new_note.getTitle(), new_note.getNote());
                 notes.clear();
-                notes.addAll(database.mainDAO().getAll());
+                notes.addAll(database.mainDAO().getAll(profile.getUsername()));
                 notesListAdapter.notifyDataSetChanged();
             }
         }
@@ -128,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         @Override
         public void onLongClick(Notes notes, CardView cardView) {
-            selectedNote = new Notes();
             selectedNote = notes;
             showPopup(cardView);
         }

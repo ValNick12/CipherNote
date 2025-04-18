@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.Model.Notes;
+import com.example.myapplication.Model.Profiles;
 
 public class NotesTakingActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class NotesTakingActivity extends AppCompatActivity {
     ImageView imageView_save;
     Notes note;
     boolean isOldNote = false;
+    Profiles profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class NotesTakingActivity extends AppCompatActivity {
         imageView_save = findViewById(R.id.imageView_save);
         editText_title = findViewById(R.id.editText_title);
         editText_notes = findViewById(R.id.editText_notes);
+        profile = (Profiles) getIntent().getSerializableExtra("user");
 
         note = new Notes();
         try {
@@ -61,6 +64,7 @@ public class NotesTakingActivity extends AppCompatActivity {
 
             note.setTitle(title);
             note.setNote(note_text);
+            note.setUser(profile.getUsername());
 
             Intent intent = new Intent();
             intent.putExtra("note", note);
