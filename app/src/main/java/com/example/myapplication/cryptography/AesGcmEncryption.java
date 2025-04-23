@@ -10,26 +10,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Implements AES (Advanced Encryption Standard) with Galois/Counter Mode (GCM), which is a mode of
- * operation for symmetric key cryptographic block ciphers that has been widely adopted because of
- * its efficiency and performance.
- * <p>
- * Every encryption produces a new 12 byte random IV (see http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf)
- * because the security of GCM depends choosing a unique initialization vector for every encryption performed with the same key.
- * <p>
- * The iv, encrypted content and auth tag will be encoded to the following format:
- * <p>
- * out = byte[] {x y y y y y y y y y y y y z z z ...}
- * <p>
- * x = IV length as byte
- * y = IV bytes
- * z = content bytes (encrypted content, auth tag)
- *
- * @author Patrick Favre-Bulle
- * @since 18.12.2017
- */
-public final class AesGcmEncryption {
+public class AesGcmEncryption {
     private static final String ALGORITHM = "AES/GCM/NoPadding";
     private static final int TAG_LENGTH_BIT = 128;
     private static final int IV_LENGTH_BYTE = 12;
@@ -40,10 +21,6 @@ public final class AesGcmEncryption {
 
     public AesGcmEncryption() {
         this(new SecureRandom(), null);
-    }
-
-    public AesGcmEncryption(SecureRandom secureRandom) {
-        this(secureRandom, null);
     }
 
     public AesGcmEncryption(SecureRandom secureRandom, Provider provider) {
