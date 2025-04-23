@@ -10,20 +10,19 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AesGcmEncryption {
+public class AesEncryption {
     private static final String ALGORITHM = "AES/GCM/NoPadding";
     private static final int TAG_LENGTH_BIT = 128;
     private static final int IV_LENGTH_BYTE = 12;
-
     private final SecureRandom secureRandom;
     private final Provider provider;
     private final ThreadLocal<Cipher> cipherWrapper = new ThreadLocal<>();
 
-    public AesGcmEncryption() {
+    public AesEncryption() {
         this(new SecureRandom(), null);
     }
 
-    public AesGcmEncryption(SecureRandom secureRandom, Provider provider) {
+    public AesEncryption(SecureRandom secureRandom, Provider provider) {
         this.secureRandom = secureRandom;
         this.provider = provider;
     }
@@ -33,8 +32,8 @@ public class AesGcmEncryption {
             throw new IllegalArgumentException("key length must be longer than 16 bytes");
         }
 
-        byte[] iv = null;
-        byte[] encrypted = null;
+        byte[] iv;
+        byte[] encrypted;
         try {
             iv = new byte[IV_LENGTH_BYTE];
             secureRandom.nextBytes(iv);

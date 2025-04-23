@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.myapplication.cryptography.AesGcmEncryption;
+import com.example.myapplication.cryptography.AesEncryption;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -45,36 +45,36 @@ public class Notes implements Serializable {
     }
 
     public void setTitle(String title) {
-        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
+        AesEncryption aesEncryption = new AesEncryption();
         try {
-            this.title = new String(aesGcmEncryption.encrypt(key, title.getBytes(), null));
+            this.title = new String(aesEncryption.encrypt(key, title.getBytes(), null));
         } catch (Exception e) {
             throw new RuntimeException("Didn't set title", e);
         }
     }
 
     public String getTitle() {
-        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
+        AesEncryption aesEncryption = new AesEncryption();
         try {
-            return new String(aesGcmEncryption.decrypt(key, this.title.getBytes(), null));
+            return new String(aesEncryption.decrypt(key, this.title.getBytes(), null));
         } catch (Exception e) {
             throw new RuntimeException("Didn't get title", e);
         }
     }
 
     public void setNote(String note) {
-        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
+        AesEncryption aesEncryption = new AesEncryption();
         try {
-            this. note = new String(aesGcmEncryption.encrypt(key, note.getBytes(), null));
+            this. note = new String(aesEncryption.encrypt(key, note.getBytes(), null));
         } catch (Exception e) {
             throw new RuntimeException("Didn't set note", e);
         }
     }
 
     public String getNote() {
-        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
+        AesEncryption aesEncryption = new AesEncryption();
         try {
-            return new String(aesGcmEncryption.decrypt(key, this.note.getBytes(), null));
+            return new String(aesEncryption.decrypt(key, this.note.getBytes(), null));
         } catch (Exception e) {
             throw new RuntimeException("Didn't get note", e);
         }
