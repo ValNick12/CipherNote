@@ -6,20 +6,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.myapplication.cryptography.AesGcmEncryption;
+
 import java.io.Serializable;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 @Entity(tableName = "notes")
 public class Notes implements Serializable {
@@ -31,10 +29,12 @@ public class Notes implements Serializable {
     String note = "";
     @ColumnInfo(name = "user")
     String user = "";
-    @ColumnInfo(name = "iv")
-    GCMParameterSpec iv = generateIv();
     @ColumnInfo(name = "key")
-    SecretKey key = generateKey();
+    public byte[] key = null;
+
+    public Notes(){
+        this.key = generateKey();
+    }
 
     public int getId() {
         return id;
@@ -44,39 +44,39 @@ public class Notes implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        try {
-            return decrypt(this.title, key, iv);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
-                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void setTitle(String title) {
+        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
         try {
-            this.title = encrypt(this.title, key, iv);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
-                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
+            this.title = new String(aesGcmEncryption.encrypt(key, title.getBytes(), null));
+        } catch (Exception e) {
+            throw new RuntimeException("Didn't set title", e);
         }
     }
 
-    public String getNote() {
+    public String getTitle() {
+        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
         try {
-            return decrypt(this.note, key, iv);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
-                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
+            return new String(aesGcmEncryption.decrypt(key, this.title.getBytes(), null));
+        } catch (Exception e) {
+            throw new RuntimeException("Didn't get title", e);
         }
     }
 
     public void setNote(String note) {
+        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
         try {
-            this.note = encrypt(this.note, key, iv);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
-                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
+            this. note = new String(aesGcmEncryption.encrypt(key, note.getBytes(), null));
+        } catch (Exception e) {
+            throw new RuntimeException("Didn't set note", e);
+        }
+    }
+
+    public String getNote() {
+        AesGcmEncryption aesGcmEncryption = new AesGcmEncryption();
+        try {
+            return new String(aesGcmEncryption.decrypt(key, this.note.getBytes(), null));
+        } catch (Exception e) {
+            throw new RuntimeException("Didn't get note", e);
         }
     }
 
@@ -88,42 +88,50 @@ public class Notes implements Serializable {
         this.user = user;
     }
 
-    public static String encrypt(String input, SecretKey key, GCMParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public static String encrypt(String plainText, byte[] key) throws Exception {
+        SecretKey secretKey = new SecretKeySpec(key, "AES");
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] iv = new byte[12];
+        secureRandom.nextBytes(iv);
+        final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        GCMParameterSpec parameterSpec = new GCMParameterSpec(128, iv);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, parameterSpec);
+        byte[] cipherText = cipher.doFinal(plainText.getBytes());
 
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        byte[] cipherText = cipher.doFinal(input.getBytes());
+        ByteBuffer byteBuffer = ByteBuffer.allocate(iv.length + cipherText.length);
+        byteBuffer.put(iv);
+        byteBuffer.put(cipherText);
+
+        byte[] cipherMessage = byteBuffer.array();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return Base64.getEncoder().encodeToString(cipherText);
+            return Base64.getEncoder().encodeToString(cipherMessage);
+        }else{
+            throw new RuntimeException();
         }
-        return null;
     }
 
-    public static String decrypt(String cipherText, SecretKey key, GCMParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = null;
+    public static String decrypt(String encryptedDataInBase64, byte[] key) throws Exception {
+        SecretKey secretKey = new SecretKeySpec(key, "AES");
+        final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        byte[] encryptedDataBytes = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
+            encryptedDataBytes = Base64.getDecoder().decode(encryptedDataInBase64.getBytes());
+        }else{
+            throw new RuntimeException();
         }
+
+        AlgorithmParameterSpec iv = new GCMParameterSpec(128, encryptedDataBytes, 0, 12);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
+
+        byte[] plainText = cipher.doFinal(encryptedDataBytes, 12, encryptedDataBytes.length - 12);
+
         return new String(plainText);
     }
 
-    public static GCMParameterSpec generateIv() {
-        byte[] iv = new byte[12];
-        new SecureRandom().nextBytes(iv);
-        return new GCMParameterSpec(128, iv);
-    }
-
-    public static SecretKey generateKey() {
-        KeyGenerator keyGenerator = null;
-        try {
-            keyGenerator = KeyGenerator.getInstance("AES");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        keyGenerator.init(128);
-        return keyGenerator.generateKey();
+    public static byte[] generateKey() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] key = new byte[16];
+        secureRandom.nextBytes(key);
+        return key;
     }
 }
