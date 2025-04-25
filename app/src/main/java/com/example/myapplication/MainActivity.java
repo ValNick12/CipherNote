@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         imageView_logout = findViewById(R.id.imageView_logout);
         profile = (Profiles) getIntent().getSerializableExtra("user");
 
-
         database = RoomDB.getInstance(this);
         notes = database.mainDAO().getAll(profile.getUsername());
 
