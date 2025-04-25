@@ -24,6 +24,9 @@ public interface MainDAO {
     @Query("SELECT * FROM notes WHERE user = :username ORDER BY id DESC")
     List<Notes> getAll(String username);
 
+    @Query("SELECT * FROM notes WHERE id = :id")
+    Notes getNoteById(int id);
+
     @Query("SELECT password_salt FROM profiles WHERE username = :username")
     byte[] getSalt(String username);
 
