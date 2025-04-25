@@ -60,6 +60,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     database.mainDAO().insert_profile(new_profile);
                     Log.d("createAccount", "Account is saved in the database " + new_profile.getUsername());
                     Toast.makeText(CreateAccountActivity.this, "Account created.", Toast.LENGTH_SHORT).show();
+                    Log.d("createAccount", "New account!\nUsername: " + database.mainDAO().getUsername(new_profile.getUsername()) + "\nPassword hash: " + database.mainDAO().getPasswordHash(new_profile.getUsername()));
                     Intent logac = new Intent(CreateAccountActivity.this, LoginActivity.class);
                     startActivity(logac);
                 }else{

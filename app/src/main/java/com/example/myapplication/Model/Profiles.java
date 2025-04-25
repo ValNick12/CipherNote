@@ -51,7 +51,7 @@ public class Profiles implements Serializable {
     public static String hashPassword(String password, byte[] salt){
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 100000, 128);
         try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] hash = factory.generateSecret(spec).getEncoded();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 return HexFormat.of().formatHex(hash);
