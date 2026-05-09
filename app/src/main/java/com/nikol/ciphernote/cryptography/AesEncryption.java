@@ -1,4 +1,4 @@
-package com.example.myapplication.cryptography;
+package com.nikol.ciphernote.cryptography;
 
 import androidx.annotation.Nullable;
 
@@ -10,7 +10,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AesEncryption {
+public final class AesEncryption {
     private static final String ALGORITHM = "AES/GCM/NoPadding";
     private static final int TAG_LENGTH_BIT = 128;
     private static final int IV_LENGTH_BYTE = 12;

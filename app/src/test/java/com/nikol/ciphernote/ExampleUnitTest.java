@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nikol.ciphernote;
 
 import org.junit.Test;
 

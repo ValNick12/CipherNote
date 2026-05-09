@@ -1,4 +1,4 @@
-package com.example.myapplication.Adapters;
+package com.nikol.ciphernote.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Model.Notes;
-import com.example.myapplication.NotesClickListener;
-import com.example.myapplication.R;
+import com.nikol.ciphernote.Model.Notes;
+import com.nikol.ciphernote.NotesClickListener;
+import com.nikol.ciphernote.R;
 
 import java.util.List;
 

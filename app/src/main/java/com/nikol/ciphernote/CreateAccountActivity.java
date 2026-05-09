@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nikol.ciphernote;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myapplication.Database.RoomDB;
-import com.example.myapplication.Model.Profiles;
+import com.nikol.ciphernote.Database.RoomDB;
+import com.nikol.ciphernote.Model.Profiles;
 
 public class CreateAccountActivity extends AppCompatActivity {
 

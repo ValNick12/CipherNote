@@ -1,4 +1,4 @@
-package com.example.myapplication.Database;
+package com.nikol.ciphernote.Database;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
@@ -8,8 +8,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.example.myapplication.Model.Notes;
-import com.example.myapplication.Model.Profiles;
+import com.nikol.ciphernote.Model.Notes;
+import com.nikol.ciphernote.Model.Profiles;
 
 import java.util.List;
 
@@ -26,9 +26,6 @@ public interface MainDAO {
 
     @Query("SELECT * FROM notes WHERE id = :id")
     Notes getNoteById(int id);
-
-    @Query("SELECT password_salt FROM profiles WHERE username = :username")
-    byte[] getSalt(String username);
 
     @Query("SELECT username FROM profiles WHERE username = :username")
     String getUsername(String username);

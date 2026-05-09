@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nikol.ciphernote;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,10 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.myapplication.Adapters.NotesListAdapter;
-import com.example.myapplication.Database.RoomDB;
-import com.example.myapplication.Model.Notes;
-import com.example.myapplication.Model.Profiles;
+import com.nikol.ciphernote.Adapters.NotesListAdapter;
+import com.nikol.ciphernote.Database.RoomDB;
+import com.nikol.ciphernote.Model.Notes;
+import com.nikol.ciphernote.Model.Profiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

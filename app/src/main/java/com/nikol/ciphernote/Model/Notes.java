@@ -1,4 +1,4 @@
-package com.example.myapplication.Model;
+package com.nikol.ciphernote.Model;
 
 import android.os.Build;
 
@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.myapplication.cryptography.AesEncryption;
+import com.nikol.ciphernote.cryptography.AesEncryption;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;

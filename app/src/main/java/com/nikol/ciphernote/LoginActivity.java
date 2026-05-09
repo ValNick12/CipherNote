@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.nikol.ciphernote;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myapplication.Database.RoomDB;
-import com.example.myapplication.Model.Profiles;
+import com.nikol.ciphernote.Database.RoomDB;
+import com.nikol.ciphernote.Model.Profiles;
+import com.nikol.ciphernote.cryptography.PasswordHasher;
 
 public class LoginActivity extends AppCompatActivity {
-
     EditText editText_username;
     EditText editText_password;
     Button loginButton;
@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -45,20 +46,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             String username = editText_username.getText().toString().trim();
             String password = editText_password.getText().toString().trim();
-            if (username.equals(database.mainDAO().getUsername(username))){
-                if(Profiles.hashPassword(password, database.mainDAO().getSalt(username))
-                        .equals(database.mainDAO().getPasswordHash(username))){
-                    profile = database.mainDAO().getProfile(username);
-                    Log.d("login", "Credentials accepted!");
-                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
-                    main.putExtra("user", profile);
-                    startActivity(main);
-                }else{
-                    Toast.makeText(LoginActivity.this, "Wrong password!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
+
+            String dbUser = database.mainDAO().getUsername(username);
+            if (dbUser == null) {
                 Toast.makeText(LoginActivity.this, "There is no user with this username!!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String storedHash = database.mainDAO().getPasswordHash(username);
+            if (PasswordHasher.verify(password, storedHash)) {
+                profile = database.mainDAO().getProfile(username);
+                Log.d("login", "Credentials accepted!");
+                Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                main.putExtra("user", profile);
+                startActivity(main);
+            } else {
+                Toast.makeText(LoginActivity.this, "Wrong password!!!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -66,6 +69,5 @@ public class LoginActivity extends AppCompatActivity {
             Intent caa = new Intent(LoginActivity.this, CreateAccountActivity.class);
             startActivity(caa);
         });
-
     }
 }
