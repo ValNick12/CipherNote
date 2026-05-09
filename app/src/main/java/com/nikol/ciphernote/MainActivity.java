@@ -3,7 +3,6 @@ package com.nikol.ciphernote;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         } else if (requestCode == 102) {
             if (resultCode == MainActivity.RESULT_OK){
                 Notes new_note = (Notes) data.getSerializableExtra("note");
-                database.mainDAO().update(new_note.getId(), new_note.getTitle(), new_note.getNote());
+                database.mainDAO().insert(new_note);
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll(profile.getUsername()));
                 notesListAdapter.notifyDataSetChanged();
@@ -138,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         public void onClick(Notes notes) {
             Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);
             intent.putExtra("old_note", notes);
+            intent.putExtra("user", profile);
             startActivityForResult(intent, 102);
         }
 

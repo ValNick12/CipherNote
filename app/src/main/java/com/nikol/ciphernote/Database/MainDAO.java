@@ -36,9 +36,6 @@ public interface MainDAO {
     @Query("SELECT * FROM profiles WHERE username = :username")
     Profiles getProfile(String username);
 
-    @Query("UPDATE notes SET title = :title, note = :note WHERE ID = :id")
-    void update(int id, String title, String note);
-
     @Delete
     void delete(Notes notes);
 }

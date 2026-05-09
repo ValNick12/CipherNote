@@ -1,7 +1,5 @@
 package com.nikol.ciphernote.Model;
 
-import android.os.Build;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,15 +7,7 @@ import androidx.room.PrimaryKey;
 import com.nikol.ciphernote.cryptography.AesEncryption;
 
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.Base64;
-
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 @Entity(tableName = "notes")
 public class Notes implements Serializable {
@@ -45,6 +35,10 @@ public class Notes implements Serializable {
     }
 
     public void setTitle(String title) {
+        if (title == null) {
+            this.title = null;
+            return;
+        }
         AesEncryption aesEncryption = new AesEncryption();
         try {
             this.title = aesEncryption.encrypt(key, title.getBytes(), null);
@@ -54,15 +48,20 @@ public class Notes implements Serializable {
     }
 
     public String getTitle() {
+        if (this.title == null) return "";
         AesEncryption aesEncryption = new AesEncryption();
         try {
             return new String(aesEncryption.decrypt(key, this.title, null));
         } catch (Exception e) {
-            throw new RuntimeException("Didn't get title", e);
+            return new String(this.title);
         }
     }
 
     public void setNote(String note) {
+        if (note == null) {
+            this.note = null;
+            return;
+        }
         AesEncryption aesEncryption = new AesEncryption();
         try {
             this.note = aesEncryption.encrypt(key, note.getBytes(), null);
@@ -72,11 +71,12 @@ public class Notes implements Serializable {
     }
 
     public String getNote() {
+        if (this.note == null) return "";
         AesEncryption aesEncryption = new AesEncryption();
         try {
             return new String(aesEncryption.decrypt(key, this.note, null));
         } catch (Exception e) {
-            throw new RuntimeException("Didn't get note", e);
+            return new String(this.note);
         }
     }
 

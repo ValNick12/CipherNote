@@ -41,14 +41,15 @@ public class NotesTakingActivity extends AppCompatActivity {
         editText_notes = findViewById(R.id.editText_notes);
         profile = (Profiles) getIntent().getSerializableExtra("user");
 
-        note = new Notes();
-        try {
-            note = (Notes) getIntent().getSerializableExtra("old_note");
+        Notes oldNote = (Notes) getIntent().getSerializableExtra("old_note");
+        if (oldNote != null) {
+            note = oldNote;
             editText_title.setText(note.getTitle());
             editText_notes.setText(note.getNote());
             isOldNote = true;
-        }catch (Exception e){
-            e.printStackTrace();
+        } else {
+            note = new Notes();
+            isOldNote = false;
         }
 
         imageView_save.setOnClickListener(v -> {
@@ -65,7 +66,13 @@ public class NotesTakingActivity extends AppCompatActivity {
 
             note.setTitle(title);
             note.setNote(note_text);
-            note.setUser(profile.getUsername());
+            
+            if (profile != null) {
+                note.setUser(profile.getUsername());
+            } else {
+                Log.e("NotesTakingActivity", "Profile is null, cannot set user for note");
+                // Optionally handle this error, e.g., show a toast or don't save
+            }
 
             Intent intent = new Intent();
             intent.putExtra("note", note);
