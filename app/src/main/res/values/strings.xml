@@ -2,8 +2,8 @@
     <string name="app_name">CipherNote</string>
     <string name="notes_taking_toolbar">Your secure note</string>
     <string name="login_button">Log in</string>
-    <string name="username_textView">Username:</string>
-    <string name="password_textView">Password:</string>
+    <string name="username_textView">Username</string>
+    <string name="password_textView">Password</string>
     <string name="note_textView">Write your note here...</string>
     <string name="create_account">CREATE ACCOUNT</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
 import com.nikol.ciphernote.Model.Notes;
 import com.nikol.ciphernote.Model.Profiles;
@@ -18,7 +17,7 @@ public interface MainDAO {
     @Insert(onConflict = REPLACE)
     void insert(Notes notes);
 
-    @Insert(onConflict = REPLACE)
+    @Insert
     void insert_profile(Profiles profile);
 
     @Query("SELECT * FROM notes WHERE user = :username ORDER BY id DESC")

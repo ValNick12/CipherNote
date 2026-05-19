@@ -1,6 +1,6 @@
 package com.nikol.ciphernote;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,7 +10,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -25,21 +26,32 @@ import com.nikol.ciphernote.Database.RoomDB;
 import com.nikol.ciphernote.Model.Notes;
 import com.nikol.ciphernote.Model.Profiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nikol.ciphernote.cryptography.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
-    RecyclerView recyclerView;
-    NotesListAdapter notesListAdapter;
-    List<Notes> notes = new ArrayList<>();
-    RoomDB database;
-    FloatingActionButton fab_add;
-    ImageView imageView_logout;
-    SearchView searchView_Main;
-    Notes selectedNote;
-    Profiles profile;
+    private NotesListAdapter notesListAdapter;
+    private List<Notes> notes = new ArrayList<>();
+    private RoomDB database;
+    private Notes selectedNote;
+    private Profiles profile;
+
+    private final ActivityResultLauncher<Intent> noteActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Notes new_note = (Notes) result.getData().getSerializableExtra("note");
+                    if (new_note != null) {
+                        database.mainDAO().insert(new_note);
+                        notes = database.mainDAO().getAll(profile.getUsername());
+                        notesListAdapter.filterList(notes);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,26 +64,28 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             return insets;
         });
 
-        recyclerView = findViewById(R.id.recycler_home);
-        fab_add = findViewById(R.id.fab_home);
-        searchView_Main = findViewById(R.id.searchView_Main);
-        imageView_logout = findViewById(R.id.imageView_logout);
+        RecyclerView recyclerView = findViewById(R.id.recycler_home);
+        FloatingActionButton fab_add = findViewById(R.id.fab_home);
+        SearchView searchView_Main = findViewById(R.id.searchView_Main);
+        ImageView imageView_logout = findViewById(R.id.imageView_logout);
         profile = (Profiles) getIntent().getSerializableExtra("user");
 
         database = RoomDB.getInstance(this);
         notes = database.mainDAO().getAll(profile.getUsername());
 
-        updateRecycler(notes);
+        updateRecycler(recyclerView, notes);
 
         fab_add.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);
             intent.putExtra("user", profile);
-            startActivityForResult(intent, 101);
+            noteActivityResultLauncher.launch(intent);
         });
 
         imageView_logout.setOnClickListener(v -> {
+            SessionManager.getInstance().clear();
             Intent logout = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(logout);
+            finish();
         });
 
 
@@ -101,31 +115,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         notesListAdapter.filterList(filteredList);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == 101){
-            if (resultCode == MainActivity.RESULT_OK){
-                Notes new_note = (Notes) data.getSerializableExtra("note");
-                database.mainDAO().insert(new_note);
-                notes.clear();
-                notes.addAll(database.mainDAO().getAll(profile.getUsername()));
-                notesListAdapter.notifyDataSetChanged();
-            }
-        } else if (requestCode == 102) {
-            if (resultCode == MainActivity.RESULT_OK){
-                Notes new_note = (Notes) data.getSerializableExtra("note");
-                database.mainDAO().insert(new_note);
-                notes.clear();
-                notes.addAll(database.mainDAO().getAll(profile.getUsername()));
-                notesListAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    private void updateRecycler(List<Notes> notes) {
+    private void updateRecycler(RecyclerView recyclerView, List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         notesListAdapter = new NotesListAdapter(MainActivity.this, notes, notesClickListener);
@@ -138,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);
             intent.putExtra("old_note", notes);
             intent.putExtra("user", profile);
-            startActivityForResult(intent, 102);
+            noteActivityResultLauncher.launch(intent);
         }
 
         @Override
@@ -159,8 +149,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public boolean onMenuItemClick(MenuItem item) {
         if(item.getItemId() == R.id.delete) {
             database.mainDAO().delete(selectedNote);
-            notes.remove(selectedNote);
-            notesListAdapter.notifyDataSetChanged();
+            int index = notes.indexOf(selectedNote);
+            if (index != -1) {
+                notes.remove(index);
+                notesListAdapter.notifyItemRemoved(index);
+            }
             Toast.makeText(MainActivity.this, "The note was deleted", Toast.LENGTH_SHORT).show();
             return true;
         }

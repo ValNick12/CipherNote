@@ -18,11 +18,10 @@ import com.nikol.ciphernote.Model.Profiles;
 
 public class NotesTakingActivity extends AppCompatActivity {
 
-    EditText editText_title, editText_notes;
-    ImageView imageView_save;
-    Notes note;
-    boolean isOldNote = false;
-    Profiles profile;
+    private EditText editText_title, editText_notes;
+    private Notes note;
+    private boolean isOldNote = false;
+    private Profiles profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class NotesTakingActivity extends AppCompatActivity {
             return insets;
         });
 
-        imageView_save = findViewById(R.id.imageView_save);
+        ImageView imageView_save = findViewById(R.id.imageView_save);
         editText_title = findViewById(R.id.editText_title);
         editText_notes = findViewById(R.id.editText_notes);
         profile = (Profiles) getIntent().getSerializableExtra("user");
@@ -49,19 +48,21 @@ public class NotesTakingActivity extends AppCompatActivity {
             isOldNote = true;
         } else {
             note = new Notes();
+            note.initializeNewNote();
             isOldNote = false;
         }
 
         imageView_save.setOnClickListener(v -> {
             String title = editText_title.getText().toString();
             String note_text = editText_notes.getText().toString();
-            if (note_text.isEmpty()){
+            if (note_text.isEmpty()) {
                 Toast.makeText(NotesTakingActivity.this, "Please write a note!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (!isOldNote){
                 note = new Notes();
+                note.initializeNewNote();
             }
 
             note.setTitle(title);
@@ -71,7 +72,6 @@ public class NotesTakingActivity extends AppCompatActivity {
                 note.setUser(profile.getUsername());
             } else {
                 Log.e("NotesTakingActivity", "Profile is null, cannot set user for note");
-                // Optionally handle this error, e.g., show a toast or don't save
             }
 
             Intent intent = new Intent();

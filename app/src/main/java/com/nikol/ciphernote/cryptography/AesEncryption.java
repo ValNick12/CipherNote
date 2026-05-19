@@ -93,9 +93,7 @@ public final class AesEncryption {
                 throw new IllegalStateException("could not get cipher instance", e);
             }
             cipherWrapper.set(cipher);
-            return cipherWrapper.get();
-        } else {
-            return cipher;
         }
+        return cipher;
     }
 }

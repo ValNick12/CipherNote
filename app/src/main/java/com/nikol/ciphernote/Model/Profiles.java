@@ -1,13 +1,13 @@
 package com.nikol.ciphernote.Model;
 
-// ... imports ...
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
-import java.io.Serializable;
 
 import com.nikol.ciphernote.cryptography.PasswordHasher;
+
+import java.io.Serializable;
 
 @Entity(tableName = "profiles")
 public class Profiles implements Serializable {
@@ -17,6 +17,7 @@ public class Profiles implements Serializable {
     String username = "";
 
     @ColumnInfo(name = "password_hash")
+    @NonNull
     public String password_hash = "";
 
     @NonNull
