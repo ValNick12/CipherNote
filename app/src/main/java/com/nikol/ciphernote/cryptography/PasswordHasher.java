@@ -67,32 +67,8 @@ public final class PasswordHasher {
         return MessageDigest.isEqual(expected, actual);
     }
 
-    public static byte[] deriveMasterKey(String password, String encodedHash) {
-        if (encodedHash == null || !encodedHash.startsWith("$argon2id$")) return null;
-
-        String[] parts = encodedHash.split("\\$");
-        if (parts.length != 6) return null;
-
-        String paramsPart = parts[3];
-        int m = -1, t = -1, p = -1;
-        for (String kv : paramsPart.split(",")) {
-            String[] pair = kv.split("=");
-            if (pair.length != 2) return null;
-            switch (pair[0]) {
-                case "m": m = Integer.parseInt(pair[1]); break;
-                case "t": t = Integer.parseInt(pair[1]); break;
-                case "p": p = Integer.parseInt(pair[1]); break;
-            }
-        }
-
-        byte[] salt = Base64.decode(parts[4], Base64.NO_WRAP);
-        
-        byte[] masterKeySalt = new byte[salt.length];
-        for (int i = 0; i < salt.length; i++) {
-            masterKeySalt[i] = (byte) (salt[i] ^ 0xFF);
-        }
-
-        return argon2id(password, masterKeySalt, m, t, p, 32); // 256-bit master key
+    public static byte[] deriveKey(String password, byte[] salt) {
+        return argon2id(password, salt, MEMORY_KIB, ITERATIONS, PARALLELISM, 32);
     }
 
     private static byte[] argon2id(

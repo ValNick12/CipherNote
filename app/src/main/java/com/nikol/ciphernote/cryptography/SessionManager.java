@@ -1,5 +1,7 @@
 package com.nikol.ciphernote.cryptography;
 
+import java.nio.charset.StandardCharsets;
+
 public class SessionManager {
     private static SessionManager instance;
     private byte[] masterKey;
@@ -13,8 +15,9 @@ public class SessionManager {
         return instance;
     }
 
-    public void setMasterKey(byte[] masterKey) {
-        this.masterKey = masterKey;
+    public void deriveMasterKey(String password, String username) {
+        byte[] salt = username.getBytes(StandardCharsets.UTF_8);
+        this.masterKey = PasswordHasher.deriveKey(password, salt);
     }
 
     public byte[] getMasterKey() {

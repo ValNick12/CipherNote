@@ -71,10 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 String storedHash = database.mainDAO().getPasswordHash(username);
                 if (PasswordHasher.verify(password, storedHash)) {
                     profile = database.mainDAO().getProfile(username);
-                    
-                    // Derive and store the master key in SessionManager
-                    byte[] masterKey = PasswordHasher.deriveMasterKey(password, storedHash);
-                    SessionManager.getInstance().setMasterKey(masterKey);
+
+                    SessionManager.getInstance().deriveMasterKey(password, username);
 
                     runOnUiThread(() -> {
                         Log.d("login", "Credentials accepted!");
