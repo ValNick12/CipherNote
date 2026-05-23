@@ -1,14 +1,1 @@
-# Database files
-*.db
-*.db-shm
-*.db-wal
-
-# Android Studio / IntelliJ files
-.idea/
-*.iml
-.gradle/
-local.properties
-
-# Build artifacts
-build/
-*/build/
+/build
