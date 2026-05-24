@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         refreshNotes();
         updateRecycler(recyclerView, notes);
 
-        syncManager.syncNotes(profile.getUsername(), this::refreshNotes);
+        syncManager.syncNotes(this::refreshNotes);
 
         fab_add.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, NotesTakingActivity.class);

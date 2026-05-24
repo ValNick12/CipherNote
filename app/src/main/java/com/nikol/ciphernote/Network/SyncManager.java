@@ -26,8 +26,8 @@ public class SyncManager {
         this.database = RoomDB.getInstance(context);
     }
 
-    public void syncNotes(String username, Runnable onComplete) {
-        RetrofitClient.getApiService().getNotes().enqueue(new Callback<NotesResponse>() {
+    public void syncNotes(Runnable onComplete) {
+        RetrofitClient.getApiService().getNotes().enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<NotesResponse> call, Response<NotesResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

@@ -26,15 +26,7 @@ public interface MainDAO {
     @Query("SELECT * FROM notes WHERE id = :id")
     Notes getNoteById(String id);
 
-    @Query("SELECT username FROM profiles WHERE username = :username")
-    String getUsername(String username);
-
-    @Query("SELECT password_hash FROM profiles WHERE username = :username")
-    String getPasswordHash(String username);
-
     @Query("SELECT * FROM profiles WHERE username = :username")
     Profiles getProfile(String username);
 
-    @Delete
-    void delete(Notes notes);
 }
